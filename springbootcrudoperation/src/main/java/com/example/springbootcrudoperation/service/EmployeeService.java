@@ -11,12 +11,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.springbootcrudoperation.Exception.DuplicateDataFoundException;
+import com.example.springbootcrudoperation.Exception.EmployeeNotFoundException;
 import com.example.springbootcrudoperation.model.Employee;
 import com.example.springbootcrudoperation.model.Experience;
 import com.example.springbootcrudoperation.repository.EmployeeRepository;
 import com.example.springbootcrudoperation.repository.ExperienceRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class EmployeeService {
@@ -47,9 +46,8 @@ public Employee  create(Employee emp) {
      return emprepo.save(savedEmployee);
  }
 
-@Transactional
+
 public Employee  update(Employee employee,Long id) {
-	
 	Optional<Employee> emp= emprepo.findById(id);
 	if(emp.isPresent()) {
 	Employee existing  = emp.get();
@@ -59,10 +57,9 @@ public Employee  update(Employee employee,Long id) {
 	existing.setEmpNo(employee.getEmpNo());
 	existing.setMobilenumber(employee.getMobilenumber());
 	existing.setStatus(employee.isStatus());
-
-	List<Experience> oldexp = existing.getExperience();
-	exprepo.deleteAll(oldexp);
-	
+// already existing experience delete
+	exprepo.deleteAll(existing.getExperience());
+//  new experience add 	
      List<Experience> newexperiences = employee.getExperience();
      for (Experience exp : newexperiences) {
           exp.setEmployee(existing);
@@ -71,12 +68,9 @@ public Employee  update(Employee employee,Long id) {
      return emprepo.save(existing);
 	}
 	else
-		throw new RuntimeException("employee not found with "+ id);
+		throw new EmployeeNotFoundException("employee not found with "+ id);
 	
  }
-
-
-
 
 public List<Employee> paginationSort(int pageNo,int pageSize,String sortby) {
 		Pageable pageable =  PageRequest.of(pageNo, pageSize, Sort.by(sortby)) ;  
