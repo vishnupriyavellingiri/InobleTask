@@ -26,13 +26,9 @@ public class EmployeeService {
 
 public Employee  create(Employee emp) {
 	
-	Optional<Employee> email = emprepo.findByEmail(emp.getEmail());
-	if(email.isPresent()) 
+	if( emprepo.findByEmail(emp.getEmail()).isPresent())
 		throw new DuplicateDataFoundException("Email already exists");
-	
-	Optional<Employee> mobileno = emprepo.findByMobilenumber(emp.getMobilenumber());
-
-	if(mobileno.isPresent()) 
+	if(emprepo.findByMobilenumber(emp.getMobilenumber()).isPresent()) 
 		throw new DuplicateDataFoundException("moblie number already exists");
 	
 	 Employee savedEmployee = emprepo.save(emp);
@@ -48,9 +44,16 @@ public Employee  create(Employee emp) {
 
 
 public Employee  update(Employee employee,Long id) {
+	
 	Optional<Employee> emp= emprepo.findById(id);
+	
 	if(emp.isPresent()) {
 	Employee existing  = emp.get();
+	if(!existing.getEmail().equals(employee.getEmail()) && emprepo.findByEmail(employee.getEmail()).isPresent())
+		throw new DuplicateDataFoundException("Email already exist");
+	if(!existing.getMobilenumber().equals(employee.getMobilenumber())&& emprepo.findByMobilenumber(employee.getMobilenumber()).isPresent())
+		throw new DuplicateDataFoundException("Mobile number already exist");
+	
 	existing.setName(employee.getName());
 	existing.setAddress(employee.getAddress());
 	existing.setEmail(employee.getEmail());
@@ -65,6 +68,7 @@ public Employee  update(Employee employee,Long id) {
           exp.setEmployee(existing);
     }
      existing.setExperience(newexperiences);
+
      return emprepo.save(existing);
 	}
 	else

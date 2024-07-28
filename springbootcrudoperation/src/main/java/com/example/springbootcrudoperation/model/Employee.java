@@ -101,11 +101,11 @@ public void setStatus(boolean status) {
 	this.status = status;
 }
 
-@Override
-public String toString() {
-	return "Employee [id=" + id + ", empNo=" + empNo + ", name=" + name + ", email=" + email + ", address=" + address
-			+ ", mobilenumber=" + mobilenumber + ", status=" + status + ", experience=" + experience + "]";
-}
+//@Override
+//public String toString() {
+//	return "Employee [id=" + id + ", empNo=" + empNo + ", name=" + name + ", email=" + email + ", address=" + address
+//			+ ", mobilenumber=" + mobilenumber + ", status=" + status + ", experience=" + experience + "]";
+//}
 
 public Employee(Long id, Long empNo, String name, String email, String address, String mobilenumber, boolean status,
 		List<Experience> experience) {
