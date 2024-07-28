@@ -31,15 +31,7 @@ public Employee  create(Employee emp) {
 	if(emprepo.findByMobilenumber(emp.getMobilenumber()).isPresent()) 
 		throw new DuplicateDataFoundException("moblie number already exists");
 	
-	 Employee savedEmployee = emprepo.save(emp);
-
-     List<Experience> experiences = emp.getExperience();
-     for (Experience exp : experiences) {
-         exp.setEmployee(savedEmployee);
-     }
-     
-     savedEmployee.setExperience(experiences);
-     return emprepo.save(savedEmployee);
+     return emprepo.save(emp);
  }
 
 

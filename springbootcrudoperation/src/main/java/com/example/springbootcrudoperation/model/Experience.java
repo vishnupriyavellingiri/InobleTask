@@ -20,7 +20,7 @@ public class Experience {
 	@Column(name = "no_of_years")
 	private int noOfYearExperience;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empId", referencedColumnName = "id")
 	@JsonBackReference
     private Employee employee;
@@ -71,17 +71,17 @@ public class Experience {
 				+ ", noOfYearExperience=" + noOfYearExperience + ", employee=" + employee + "]";
 	}
 
-//	public Experience(Long id, String companyName, String location, int noOfYearExperience, Employee employee) {
-//		super();
-//		this.id = id;
-//		this.companyName = companyName;
-//		this.location = location;
-//		this.noOfYearExperience = noOfYearExperience;
-//		this.employee = employee;
-//	}
-//	
-//	public Experience() {
-//		
-//	}
+	public Experience(Long id, String companyName, String location, int noOfYearExperience, Employee employee) {
+		super();
+		this.id = id;
+		this.companyName = companyName;
+		this.location = location;
+		this.noOfYearExperience = noOfYearExperience;
+		this.employee = employee;
+	}
+	
+	public Experience() {
+		
+	}
 	
 }
